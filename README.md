@@ -1,4 +1,4 @@
-#beets-mpdadd
+#Beets MPDAdd Plugin
 
 The ```mpdadd``` plugin adds the results of a query to the current MPD playlist.
 
@@ -22,6 +22,7 @@ To query albums instead of tracks:
 ```
 beet add -a query
 ```
+
 ##Configuration
 
 To configure the plugin, make an mpd: section in your configuration file. The available options are:
