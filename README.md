@@ -4,7 +4,7 @@ The ```mpdadd``` plugin adds the results of a query to the current MPD playlist.
 
 ##Usage
 
-To enable the```mpdadd``` plugin add it to the plugins section of your configuration (see [*Using Plugins*](http://beets.readthedocs.org/en/v1.3.9/plugins/index.html#using-plugins)).
+To enable the```mpdadd``` plugin add it to the plugins section of your configuration (see [*Using Plugins*](http://beets.readthedocs.org/en/v1.3.10/plugins/index.html)).
 
 To use the ```mpdadd``` plugin:
 
