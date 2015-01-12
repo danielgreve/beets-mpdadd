@@ -1,8 +1,7 @@
+# Copyright (c) 2015 Daniel Greve
+# Licensed under the MIT License
 
-"""Adds results from a query to MPD's current playlist.
-"""
-
-from __future__ import print_function
+"""Adds the results of a beets query to MPD's current playlist"""
 
 from beets.plugins import BeetsPlugin
 from beets.ui import Subcommand
