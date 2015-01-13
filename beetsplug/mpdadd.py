@@ -72,7 +72,7 @@ def mpd_add(lib, opts, args):
         num = len(item_list)
         if num > 1:
             item_type += 's'
-        if num == 0:
+        elif num == 0:
             ui.print_(ui.colorize('red', 'No items match your query.'))
             return
         elif num > 100:
