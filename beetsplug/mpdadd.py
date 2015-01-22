@@ -1,8 +1,3 @@
-# Copyright (c) 2015 Daniel Greve
-# Licensed under the MIT License
-
-"""Adds the results of a beets query to MPD's current playlist"""
-
 from beets.plugins import BeetsPlugin
 from beets.ui import Subcommand
 from beets import ui
@@ -11,51 +6,7 @@ from os.path import relpath
 import os
 import socket
 import sys
-
-"""Taken from Adrian Sampson's MPD Update Plugin
-https://github.com/sampsyo/beets/blob/master/beetsplug/mpdupdate.py
-"""
-class BufferedSocket(object):
-
-    """Socket abstraction that allows reading by line."""
-
-    def __init__(self, host, port, sep='\n'):
-        if host[0] in ['/', '~']:
-            self.sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
-            self.sock.connect(os.path.expanduser(host))
-        else:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.sock.connect((host, port))
-        self.buf = ''
-        self.sep = sep
-
-    def readline(self):
-        while self.sep not in self.buf:
-            data = self.sock.recv(1024)
-            if not data:
-                break
-            self.buf += data
-        if '\n' in self.buf:
-            res, self.buf = self.buf.split(self.sep, 1)
-            return res + self.sep
-        else:
-            return ''
-
-    def send(self, data):
-        self.sock.send(data)
-
-    def close(self):
-        self.sock.close()
-
-    # Sends command to socket and listens for response
-    def chat(self, message, error_message):
-        self.send(message)
-        response = self.readline()
-        if 'OK' not in response:
-            ui.print_(ui.colorize('red', error_message))
-            ui.print_(ui.colorize('red', repr(response)))
-            self.send('close\n')
-            self.close
+from mpd import MPDClient
 
 def mpd_add(lib, opts, args):
     """Converts results from a query to relative uris and sends them to MPD.
@@ -95,29 +46,28 @@ def mpd_add(lib, opts, args):
     # Generate relative paths of the results from user specified directory.
     playlist = [relpath(item, music_directory) for item in paths]
 
-    # Initialize client object and connect to MPD.
-    client = BufferedSocket(host, port)
-    response = client.readline()
-    if 'OK MPD' not in response:
-        ui.print_(ui.colorize('red', 'MPD Connection failed', repr(response)))
-        return
-
+    # Initialize client object.
+    client = MPDClient()
+    
     # Authenticate with password if one is provided.
     if password:
-        client.chat('password "%s"\n' % password, 'Authentication failed:')
+        client.password(password)
+
+    # Connect to MPD.
+    client.connect(host,port)
 
     # Optionally clear current playlist before adding music.
     if opts.clear:
-        client.chat('clear\n', 'Clearing playlist failed:')
+        client.clear()
 
     # Iterate through URIs and send them to MPD.
     for uri in playlist:
-        client.chat('add "%s"\n' % uri, 'Adding music failed:')
+        client.add(uri)
 
     # Send the play command to MPD and close the connection.
-    client.chat('play\n', 'Playing failed:')
-    client.send('close\n')
+    client.play()
     client.close()
+    client.disconnect()
 
 
 class MPDAddPlugin(BeetsPlugin):
