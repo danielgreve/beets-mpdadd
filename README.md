@@ -5,7 +5,7 @@ The ```mpdadd``` plugin adds the results of a query to the current MPD playlist.
 ## Installation
 
 ```
-pip install git+git://github.com/god-complex/beets-add.git
+pip install git+git://github.com/danielgreve/beets-mpdadd.git
 ```
 
 ## Usage
