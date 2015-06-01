@@ -3,9 +3,6 @@ from beets.ui import Subcommand
 from beets import ui
 from beets import config
 from os.path import relpath
-import os
-import socket
-import sys
 from mpd import MPDClient
 
 def mpd_add(lib, opts, args):
@@ -33,14 +30,11 @@ def mpd_add(lib, opts, args):
         ui.print_(ui.colorize('brown', 'Adding %s %s to playlist...' % (num, item_type)))
 
     # Perform query and retrieve the absolute path to the results.
-    paths = []
     if opts.album:
-        for albums in lib.albums(ui.decargs(args)):
-            paths.append(albums.path)
+        paths = [albums.path for albums in lib.albums(ui.decargs(args))]
         aye(paths, 'album')
     else:
-        for items in lib.items(ui.decargs(args)):
-            paths.append(items.path)
+        paths = [items.path for items in lib.items(ui.decargs(args))]
         aye(paths, 'track')
 
     # Generate relative paths of the results from user specified directory.
