@@ -41,7 +41,7 @@ Specify non-default options for ```mpdadd``` with a ```mpd:``` section in your b
 * host: The MPD server hostname. Default: ```localhost```.
 * port: The MPD server port. Default: ```6600```.
 * password: The MPD server password. Default: ```None```.
-* music_directory: If your MPD library is at a different location from the beets library (e.g., because one is mounted on a NFS share), specify the path here. Default: The beets library directory.
+* music_directory: If your MPD library is at a different location from the beets library, specify the path here. Default: The beets library directory.
 
 An example configuation:
 
