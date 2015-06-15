@@ -5,7 +5,7 @@ setup(
     version='0.2',
     description='beets plugin that adds query results to the current MPD playlist',
     author='Daniel Greve',
-    author_email='god-complex@users.noreply.github.com',
+    author_email='danielgreve@users.noreply.github.com',
     license='MIT',
     platforms='ALL',
     packages=['beetsplug'],
