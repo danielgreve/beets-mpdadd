@@ -38,11 +38,11 @@ def mpd_add(lib, opts, args):
         aye(paths, 'track')
 
     # Generate relative paths of the results from user specified directory.
-    playlist = [relpath(item, music_directory) for item in paths]
+    playlist = [relpath(item.decode("utf-8"), music_directory) for item in paths]
 
     # Initialize client object.
     client = MPDClient()
-    
+
     # Authenticate with password if one is provided.
     if password:
         client.password(password)
